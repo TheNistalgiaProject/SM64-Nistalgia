@@ -1,4 +1,4 @@
-# Nistolgia
+![Nistolgia](https://github.com/user-attachments/assets/940cee83-49c4-4331-bd73-0b676fef01dc)
  
 ## Description
  Hello! we are a group of people that make mario 64 as bets as possible in every way
