@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 ![https://nistalgia.net](https://github.com/user-attachments/assets/03d628f7-4119-4df4-a005-6aa1c0740e02)
 
  
