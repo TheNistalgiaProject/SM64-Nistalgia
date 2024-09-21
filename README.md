@@ -1,32 +1,15 @@
-# sm64ex_alo
-Fork of [sm64pc/sm64ex](https://github.com/sm64pc/sm64ex) with additional features. 
-
-## Changes
- * N64 Building - Support for it was removed in sm64ex
- * Based of the latest refresh (since sm64ex is stuck on 12)
- * Puppycam 2 (sm64ex still has Puppycam 1)
- * Quality of life fixes and features (QOL_FIXES=1 and QOL_FEATURES=1 respectively)
- * Mouse support for desktop targets (MOUSE_ACTIONS=1) (SDL1/SDL2 only, DirectX Mouse not implemented yet)
- * Simple debug options menu (EXT_DEBUG_MENU=1)
- * Kaze's more objects patch (PORT_MOP_OBJS=1)
+# Nistolgia
  
-## Backends included
- * Same ones as in [sm64ex](https://github.com/sm64pc/sm64ex/tree/nightly) (macOS - Raspberry Pi Series - Windows - Linux), etc.
- * [Nintendo 64](https://github.com/n64decomp/sm64) along with some slight [HackerSM64](https://github.com/HackerN64/HackerSM64) changes.
- * [Nintendo Wii U](https://github.com/aboood40091/sm64ex/tree/nightly) (by AboodXD)
- * [Nintendo 3DS](https://github.com/mkst/sm64-port) (by Fnouwt, mkst)
- * [Nintendo Switch](https://github.com/fgsfdsfgs/sm64ex/tree/switch) (by Vatuu, fgsfdsfgs, KiritoDev)
- * [Android](https://github.com/VDavid003/sm64-port-android/tree/ex/nightly) (by VDavid003)
+## Description
+ Hello! we are a group of people that make mario 64 as bets as possible in every way
 
-## Patches
- * Some misc patches for this repo are available [here](https://github.com/AloXado320/sm64ex-alo-patches) (more incoming)
 
 ## Building
  ### Clone the repository:
 
  ```sh
- git clone https://github.com/AloXado320/sm64ex-alo
- cd sm64ex-alo
+ git clone https://github.com/SuperMarioTechGuy/Nistolgia
+ cd Nistolgia
  ```
  
  **Note:** On Unix systems you may need to do this before doing any changes:
