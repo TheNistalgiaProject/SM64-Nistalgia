@@ -1,2 +1,2 @@
-#include "anim_080237FC.inc.c"
-#include "anim_08023954.inc.c"
+#include "anim_walk.inc.c"
+#include "anim_held.inc.c"
