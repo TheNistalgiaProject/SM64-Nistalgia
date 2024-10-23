@@ -1,7 +1,7 @@
 ![sm64nistalgiatransparent](https://github.com/user-attachments/assets/5531b47a-57f5-49ad-aa3f-f10d52a7d5b5)
  
 ## Description
- Hello! Welcome to Nistolgia its a mod that makes your experience a whole lot better
+ Hello! Welcome to Nistalgia its a mod that makes your experience a whole lot better
  
 **DISCLAIMER** This project is a work in progress and things may change over time
 
