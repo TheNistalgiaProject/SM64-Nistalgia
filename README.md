@@ -1,4 +1,4 @@
-![Nistolgia](https://github.com/user-attachments/assets/940cee83-49c4-4331-bd73-0b676fef01dc)
+![sm64nistalgiatransparent](https://github.com/user-attachments/assets/5531b47a-57f5-49ad-aa3f-f10d52a7d5b5)
  
 ## Description
  Hello! Welcome to Nistolgia its a mod that makes your experience a whole lot better
