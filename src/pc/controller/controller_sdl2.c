@@ -21,10 +21,6 @@
 #include "controller_touchscreen.h"
 #endif
 
-#ifdef MOUSE_ACTIONS
-#include "controller_mouse.h"
-#endif
-
 #include "game/level_update.h"
 
 // mouse buttons are also in the controller namespace (why), just offset 0x100
