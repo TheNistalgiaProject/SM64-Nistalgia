@@ -157,32 +157,6 @@ static bool gfx_dxgi_is_window_maximized(void) {
     return window_placement.showCmd == SW_SHOWMAXIMIZED;
 }
 
-extern "C" void gfx_dxgi_set_cursor_visibility(bool visible) {
-    // https://learn.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-showcursor
-    // https://devblogs.microsoft.com/oldnewthing/20091217-00/?p=15643
-    // ShowCursor uses a counter, not a boolean value, and increments or decrements that value when called
-    // This means we need to keep calling it until we get the value we want
-
-    //
-    //  NOTE:  If you continue calling until you "get the value you want" and there is no mouse attached,
-    //  it will lock the software up.  Windows always returns -1 if there is no mouse!
-    //
-
-    const int _MAX_TRIES = 15; // Prevent spinning infinitely if no mouse is plugged in
-
-    int cursorVisibilityTries = 0;
-    int cursorVisibilityCounter;
-    if (visible) {
-        do {
-            cursorVisibilityCounter = ShowCursor(true);
-        } while (cursorVisibilityCounter < 0 && ++cursorVisibilityTries < _MAX_TRIES);
-    } else {
-        do {
-            cursorVisibilityCounter = ShowCursor(false);
-        } while (cursorVisibilityCounter >= 0);
-    }
-}
-
 static void toggle_borderless_window_full_screen(bool enable) {
     // Windows 7 + flip mode + waitable object can't go to exclusive fullscreen,
     // so do borderless instead. If DWM is enabled, this means we get one monitor
@@ -209,6 +183,7 @@ static void toggle_borderless_window_full_screen(bool enable) {
             ShowWindow(dxgi.h_wnd, SW_RESTORE);
         }
         configWindow.exiting_fullscreen = false;
+        //ShowCursor(TRUE);
     } else {
         dxgi.is_full_screen = true; // Call this early so it doesn't get called twice
 
@@ -232,6 +207,8 @@ static void toggle_borderless_window_full_screen(bool enable) {
         // Set borderless full screen to that monitor
         SetWindowLongPtr(dxgi.h_wnd, GWL_STYLE, WS_VISIBLE | WS_POPUP);
         SetWindowPos(dxgi.h_wnd, HWND_TOP, r.left, r.top, r.right - r.left, r.bottom - r.top, SWP_FRAMECHANGED);
+
+        //ShowCursor(FALSE);
     }
 }
 
@@ -258,10 +235,8 @@ static void gfx_dxgi_set_fullscreen(void) {
         return;
     if (configWindow.fullscreen) {
         toggle_borderless_window_full_screen(true);
-        gfx_dxgi_set_cursor_visibility(false);
     } else {
         toggle_borderless_window_full_screen(false);
-        gfx_dxgi_set_cursor_visibility(true);
     }
 }
 
@@ -337,7 +312,6 @@ static LRESULT CALLBACK gfx_dxgi_wnd_proc(HWND h_wnd, UINT message, WPARAM w_par
     if (configWindow.reset) {
         dxgi.last_maximized_state = false;
         configWindow.fullscreen = false;
-        configWindow.exiting_fullscreen = true;
         configWindow.settings_changed = true;
         if (gfx_dxgi_is_window_maximized()) {
             ShowWindow(dxgi.h_wnd, SW_RESTORE);
