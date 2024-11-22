@@ -312,6 +312,7 @@ static LRESULT CALLBACK gfx_dxgi_wnd_proc(HWND h_wnd, UINT message, WPARAM w_par
     if (configWindow.reset) {
         dxgi.last_maximized_state = false;
         configWindow.fullscreen = false;
+        configWindow.exiting_fullscreen = true;
         configWindow.settings_changed = true;
         if (gfx_dxgi_is_window_maximized()) {
             ShowWindow(dxgi.h_wnd, SW_RESTORE);
