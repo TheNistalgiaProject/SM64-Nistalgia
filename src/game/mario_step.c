@@ -786,7 +786,7 @@ s32 perform_air_quarter_step(struct MarioState *m, Vec3f intendedPos, u32 stepAr
     // misalignment, you can activate these conditions in unexpected situations
     // Check if Mario can grab a wall.
 #if BETTER_RESOLVE_WALL_COLLISION
-    if (m->vel[1] <= 0.0f && (stepArg & AIR_STEP_CHECK_LEDGE_GRAB) && upperWall.numWalls == 0 && lowerWall.numWalls != 0) {
+    if ((stepArg & AIR_STEP_CHECK_LEDGE_GRAB) && upperWall.numWalls == 0 && lowerWall.numWalls != 0) {
         // Check if any walls are grabbable.
         grabbedWall = check_ledge_grab(m, &lowerWall, intendedPos, nextPos, ledgePos, &ledgeFloor);
         if (grabbedWall != NULL && ledgeFloor != NULL) {
