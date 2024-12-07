@@ -129,7 +129,9 @@ static void controller_sdl_init(void) {
     controller_sdl_bind();
 
     init_ok = true;
+#ifdef MOUSE_ACTIONS
     mouse_init_ok = true;
+#endif
 }
 
 static inline void update_button(const int i, const bool new) {
@@ -150,7 +152,7 @@ static void mouse_control_handler(OSContPad *pad) {
     if (!configMouse) {
         return;
     }
-    
+
     if (mouse_has_center_control && sCurrPlayMode != 2) {
         controller_mouse_enter_relative();
     } else {
@@ -302,7 +304,9 @@ static void controller_sdl_shutdown(void) {
     }
 
     init_ok = false;
+#ifdef MOUSE_ACTIONS
     mouse_init_ok = false;
+#endif
 }
 
 struct ControllerAPI controller_sdl = {
