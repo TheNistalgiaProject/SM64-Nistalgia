@@ -1,6 +1,9 @@
 Lights1 bobomb_Fuse_lights = gdSPDefLights1(
 	0x56, 0x56, 0x57,
 	0xB1, 0xB0, 0xB2, 0x49, 0x49, 0x49);
+Lights1 bobomb_Buddy_lights = gdSPDefLights1(
+	0x7F, 0x0, 0x7F,
+	0xFF, 0x0, 0xFF, 0x49, 0x49, 0x49);
 
 Lights1 bobomb_feetthing_lights = gdSPDefLights1(
 	0x46, 0x20, 0x0,
@@ -17951,6 +17954,21 @@ Gfx mat_bobomb_Bobomb_Body[] = {
 	gsSPEndDisplayList(),
 };
 
+Gfx mat_bobomb_Bobomb_Buddy_Body[] = {
+	gsSPSetLights1(bobomb_Buddy_lights),
+	gsSPGeometryMode(0, G_TEXTURE_GEN),
+	gsDPPipeSync(),
+	gsDPSetCombineLERP(PRIMITIVE, 0, TEXEL0, SHADE, 0, 0, 0, ENVIRONMENT, PRIMITIVE, 0, TEXEL0, SHADE, 0, 0, 0, ENVIRONMENT),
+	gsSPTexture(4032, 4032, 0, 0, 1),
+	gsDPSetPrimColor(0, 0, 0, 167, 0, 255),
+	gsDPSetTextureImage(G_IM_FMT_IA, G_IM_SIZ_8b_LOAD_BLOCK, 1, bobomb_blacksphere_ia8),
+	gsDPSetTile(G_IM_FMT_IA, G_IM_SIZ_8b_LOAD_BLOCK, 0, 0, 7, 0, G_TX_WRAP | G_TX_NOMIRROR, 0, 0, G_TX_WRAP | G_TX_NOMIRROR, 0, 0),
+	gsDPLoadBlock(7, 0, 0, 2047, 256),
+	gsDPSetTile(G_IM_FMT_IA, G_IM_SIZ_8b, 8, 0, 0, 0, G_TX_CLAMP | G_TX_NOMIRROR, 6, 0, G_TX_CLAMP | G_TX_MIRROR, 6, 0),
+	gsDPSetTileSize(0, 0, 0, 508, 252),
+	gsSPEndDisplayList(),
+};
+
 Gfx mat_revert_bobomb_Bobomb_Body[] = {
 	gsSPGeometryMode(G_TEXTURE_GEN, 0),
 	gsDPPipeSync(),
@@ -18024,6 +18042,19 @@ Gfx mat_revert_bobomb_feetthing[] = {
 
 Gfx bobomb_root_mesh_layer_1[] = {
 	gsSPDisplayList(mat_bobomb_Bobomb_Body),
+	gsSPDisplayList(bobomb_root_mesh_layer_1_tri_0),
+	gsSPDisplayList(mat_revert_bobomb_Bobomb_Body),
+	gsSPDisplayList(mat_bobomb_eye_001),
+	gsSPDisplayList(bobomb_root_mesh_layer_1_tri_1),
+	gsSPDisplayList(mat_revert_bobomb_eye_001),
+	gsSPDisplayList(mat_bobomb_Fuse),
+	gsSPDisplayList(bobomb_root_mesh_layer_1_tri_2),
+	gsSPDisplayList(mat_revert_bobomb_Fuse),
+	gsSPEndDisplayList(),
+};
+
+Gfx bobomb_buddy_root_mesh_layer_1[] = {
+	gsSPDisplayList(mat_bobomb_Bobomb_Buddy_Body),
 	gsSPDisplayList(bobomb_root_mesh_layer_1_tri_0),
 	gsSPDisplayList(mat_revert_bobomb_Bobomb_Body),
 	gsSPDisplayList(mat_bobomb_eye_001),
