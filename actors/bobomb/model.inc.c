@@ -18040,6 +18040,13 @@ Gfx mat_revert_bobomb_feetthing[] = {
 	gsSPEndDisplayList(),
 };
 
+Gfx bobomb_root_shared_mesh_layer_1[] = {
+	gsSPDisplayList(mat_bobomb_Bobomb_Body),
+	gsSPDisplayList(bobomb_root_mesh_layer_1_tri_0),
+	gsSPDisplayList(mat_revert_bobomb_Bobomb_Body),
+	gsSPEndDisplayList(),
+};
+
 Gfx bobomb_root_mesh_layer_1[] = {
 	gsSPDisplayList(mat_bobomb_Bobomb_Body),
 	gsSPDisplayList(bobomb_root_mesh_layer_1_tri_0),
