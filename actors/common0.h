@@ -38,6 +38,7 @@ extern Gfx bobomb_foot_L_mesh_layer_1_tri_0[];
 extern Vtx bobomb_foot_R_mesh_layer_1_vtx_0[1327];
 extern Gfx bobomb_foot_R_mesh_layer_1_tri_0[];
 extern Gfx mat_bobomb_Bobomb_Body[];
+extern Gfx bobomb_buddy_root_mesh_layer_1[];
 extern Gfx mat_revert_bobomb_Bobomb_Body[];
 extern Gfx mat_bobomb_eye_001[];
 extern Gfx mat_revert_bobomb_eye_001[];
