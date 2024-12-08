@@ -18,7 +18,7 @@
  
  ```sh
  git config core.fileMode false
- chmod -R 777 .
+ chmod -R 775 .
  ```
  
  ### Copy baserom(s) for asset extraction:
