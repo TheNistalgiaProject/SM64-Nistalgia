@@ -10,7 +10,7 @@
  ### Clone the repository:
 
  ```sh
- git clone https://github.com/SuperMarioTechGuy/Nistolgia
+ git clone https://github.com/TheNistalgiaProject/SM64-Nistalgia.git
  cd Nistolgia
  ```
  
