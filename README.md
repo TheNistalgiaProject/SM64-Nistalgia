@@ -11,7 +11,7 @@
 
  ```sh
  git clone https://github.com/TheNistalgiaProject/SM64-Nistalgia.git
- cd Nistolgia
+ cd SM64-Nistalgia
  ```
  
  **Note:** On Unix systems you may need to do this before doing any changes:
