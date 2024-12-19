@@ -1,4 +1,4 @@
-![sm64nistalgiatransparent](https://github.com/user-attachments/assets/40a6706a-6498-41ea-8fed-30940a215a39)
+![Nistalgiaprojectlogo](https://github.com/user-attachments/assets/03d628f7-4119-4df4-a005-6aa1c0740e02)
  
 ## Description
  Hello! Welcome to Nistalgia its a mod that makes your experience a whole lot better
