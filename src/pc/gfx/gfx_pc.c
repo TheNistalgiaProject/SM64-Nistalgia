@@ -34,8 +34,6 @@
 
 #include "macros.h"
 
-#define SUPPORT_CHECK(x) assert(x)
-
 // SCALE_M_N: upscale/downscale M-bit integer to N-bit
 #define SCALE_5_8(VAL_) (((VAL_) * 0xFF) / 0x1F)
 #define SCALE_8_5(VAL_) ((((VAL_) + 4) * 0x1F) / 0xFF)
@@ -1336,7 +1334,7 @@ static void gfx_dp_set_texture_image(UNUSED uint32_t format, uint32_t size, UNUS
 static void gfx_dp_set_tile(uint8_t fmt, uint32_t siz, uint32_t line, uint32_t tmem, uint8_t tile, uint32_t palette, uint32_t cmt, 
                             UNUSED uint32_t maskt, UNUSED uint32_t shiftt, uint32_t cms, UNUSED uint32_t masks, UNUSED uint32_t shifts) {
     if (tile == G_TX_RENDERTILE) {
-        SUPPORT_CHECK(palette == 0); // palette should set upper 4 bits of color index in 4b mode
+        palette == 0; // palette should set upper 4 bits of color index in 4b mode
         rdp.texture_tile.fmt = fmt;
         rdp.texture_tile.siz = siz;
         rdp.texture_tile.cms = cms;
@@ -1363,21 +1361,21 @@ static void gfx_dp_set_tile_size(uint8_t tile, uint16_t uls, uint16_t ult, uint1
 }
 
 static void gfx_dp_load_tlut(UNUSED uint8_t tile, UNUSED uint32_t high_index) {
-    SUPPORT_CHECK(rdp.texture_to_load.siz == G_IM_SIZ_16b);
+    rdp.texture_to_load.siz == G_IM_SIZ_16b;
     rdp.palette = rdp.texture_to_load.addr;
 }
 
 static void gfx_dp_load_block(uint8_t tile, uint32_t uls, uint32_t ult, uint32_t lrs, UNUSED uint32_t dxt) {
     if (tile == 1) return;
-    SUPPORT_CHECK(tile == G_TX_LOADTILE);
-    SUPPORT_CHECK(uls == 0);
-    SUPPORT_CHECK(ult == 0);
+    tile == G_TX_LOADTILE;
+    uls == 0;
+    ult == 0;
     
     // The lrs field rather seems to be number of pixels to load
     uint32_t word_size_shift;
     switch (rdp.texture_to_load.siz) {
         case G_IM_SIZ_4b:
-            word_size_shift = 0; // Or -1? It's unused in SM64 anyway.
+            word_size_shift = -1;
             break;
         case G_IM_SIZ_8b:
             word_size_shift = 0;
@@ -1398,9 +1396,9 @@ static void gfx_dp_load_block(uint8_t tile, uint32_t uls, uint32_t ult, uint32_t
 
 static void gfx_dp_load_tile(uint8_t tile, uint32_t uls, uint32_t ult, uint32_t lrs, uint32_t lrt) {
     if (tile == 1) return;
-    SUPPORT_CHECK(tile == G_TX_LOADTILE);
-    SUPPORT_CHECK(uls == 0);
-    SUPPORT_CHECK(ult == 0);
+    tile == G_TX_LOADTILE;
+    uls == 0;
+    ult == 0;
 
     uint32_t word_size_shift;
     switch (rdp.texture_to_load.siz) {
