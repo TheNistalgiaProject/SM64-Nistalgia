@@ -1,0 +1,9 @@
+extern const GeoLayout transparent_star_geo[];
+extern Lights1 transparent_star_TransparentStarBody_lights;
+extern u8 transparent_star_blackspheresm64ex_alo_ia8[];
+extern Vtx transparent_star_000_displaylist_mesh_layer_5_vtx_0[5103];
+extern Gfx transparent_star_000_displaylist_mesh_layer_5_tri_0[];
+extern Gfx mat_transparent_star_TransparentStarBody[];
+extern Gfx mat_revert_transparent_star_TransparentStarBody[];
+extern Gfx transparent_star_000_displaylist_mesh_layer_5[];
+extern Gfx transparent_star_material_revert_render_settings[];

@@ -40,9 +40,9 @@ const GeoLayout klepto_geo[] = {
                                         GEO_SCALE(0x00, 16384),
                                         GEO_OPEN_NODE(),
                                             GEO_ASM(0, geo_offset_klepto_held_object),
-                                            GEO_TRANSLATE_ROTATE_WITH_DL(LAYER_OPAQUE, 0, 100, 0, 180, 270, 0, star_seg3_dl_0302B870),
+                                            GEO_TRANSLATE_ROTATE_WITH_DL(LAYER_OPAQUE, 0, 100, 0, 180, 270, 0, star_000_displaylist_mesh_layer_1),
                                             GEO_ASM(0, geo_offset_klepto_held_object),
-                                            GEO_TRANSLATE_ROTATE_WITH_DL(LAYER_ALPHA, 0, 100, 0, 180, 270, 0, star_seg3_dl_0302BA18),
+                                            GEO_TRANSLATE_ROTATE_WITH_DL(LAYER_OPAQUE, 0, 100, 0, 180, 270, 0, star_001_displaylist_mesh_layer_1),
                                         GEO_CLOSE_NODE(),
                                     GEO_CLOSE_NODE(),
                                     GEO_NODE_START(),
@@ -51,9 +51,9 @@ const GeoLayout klepto_geo[] = {
                                         GEO_OPEN_NODE(),
                                             GEO_ASM(0, geo_offset_klepto_held_object),
                                         #if OBJECTS_HOLD_TRANSPARENT_STAR
-                                            GEO_TRANSLATE_ROTATE_WITH_DL(LAYER_TRANSPARENT, 0, 100, 0, 180, 270, 0, transparent_star_seg3_dl_0302C620),
+                                            GEO_TRANSLATE_ROTATE_WITH_DL(LAYER_TRANSPARENT, 0, 100, 0, 180, 270, 0, transparent_star_000_displaylist_mesh_layer_5),
                                         #else
-                                            GEO_TRANSLATE_ROTATE_WITH_DL(LAYER_OPAQUE, 0, 100, 0, 180, 270, 0, transparent_star_seg3_dl_0302C620),
+                                            GEO_TRANSLATE_ROTATE_WITH_DL(LAYER_TRANSPARENT, 0, 100, 0, 180, 270, 0, transparent_star_000_displaylist_mesh_layer_5),
                                         #endif
                                         GEO_CLOSE_NODE(),
                                     GEO_CLOSE_NODE(),

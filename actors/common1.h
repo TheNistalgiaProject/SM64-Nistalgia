@@ -201,15 +201,34 @@ extern const Gfx sand_seg3_dl_0302BCD0[];
 
 // star
 extern const GeoLayout star_geo[];
-extern const Gfx star_seg3_dl_0302B7B0[];
-extern const Gfx star_seg3_dl_0302B870[];
-extern const Gfx star_seg3_dl_0302B9C0[];
-extern const Gfx star_seg3_dl_0302BA18[];
+extern Lights1 star_StarBody_lights;
+extern Lights1 star_StarEyes_lights;
+extern u8 star_blackspheresm64ex_alo_ia8[];
+extern Vtx star_000_displaylist_mesh_layer_1_vtx_0[5103];
+extern Gfx star_000_displaylist_mesh_layer_1_tri_0[];
+extern Vtx star_001_displaylist_mesh_layer_1_vtx_0[1340];
+extern Gfx star_001_displaylist_mesh_layer_1_tri_0[];
+extern Gfx mat_star_StarBody[];
+extern Gfx mat_revert_star_StarBody[];
+extern Gfx mat_star_StarEyes[];
+extern Gfx mat_revert_star_StarEyes[];
+extern Gfx star_000_displaylist_mesh_layer_1[];
+extern Gfx star_001_displaylist_mesh_layer_1[];
+extern Gfx star_material_revert_render_settings[];
+
 
 // transparent_star
 extern const GeoLayout transparent_star_geo[];
-extern const Gfx transparent_star_seg3_dl_0302C560[];
-extern const Gfx transparent_star_seg3_dl_0302C620[];
+extern Lights1 transparent_star_TransparentStarBody_lights;
+extern u8 transparent_star_blackspheresm64ex_alo_ia8[];
+extern Vtx transparent_star_000_displaylist_mesh_layer_5_vtx_0[5103];
+extern Gfx transparent_star_000_displaylist_mesh_layer_5_tri_0[];
+extern Gfx mat_transparent_star_TransparentStarBody[];
+extern Gfx mat_revert_transparent_star_TransparentStarBody[];
+extern Gfx transparent_star_000_displaylist_mesh_layer_5[];
+extern Gfx transparent_star_material_revert_render_settings[];
+
+
 
 // tree
 extern const GeoLayout bubbly_tree_geo[];

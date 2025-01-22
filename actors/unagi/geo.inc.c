@@ -25,8 +25,8 @@ const GeoLayout unagi_geo[] = {
                                     GEO_OPEN_NODE(),
                                         GEO_SCALE(0x00, 16384),
                                         GEO_OPEN_NODE(),
-                                            GEO_TRANSLATE_ROTATE_WITH_DL(LAYER_OPAQUE, 2000, 0, 0, 0, 0, 0, star_seg3_dl_0302B870),
-                                            GEO_TRANSLATE_ROTATE_WITH_DL(LAYER_ALPHA, 2000, 0, 0, 0, 0, 0, star_seg3_dl_0302BA18),
+                                            GEO_TRANSLATE_ROTATE_WITH_DL(LAYER_OPAQUE, 2000, 0, 0, 0, 0, 0, star_000_displaylist_mesh_layer_1),
+                                            GEO_TRANSLATE_ROTATE_WITH_DL(LAYER_OPAQUE, 2000, 0, 0, 0, 0, 0, star_001_displaylist_mesh_layer_1),
                                         GEO_CLOSE_NODE(),
                                     GEO_CLOSE_NODE(),
                                 #if OBJECTS_HOLD_TRANSPARENT_STAR
@@ -34,7 +34,7 @@ const GeoLayout unagi_geo[] = {
                                     GEO_OPEN_NODE(),
                                         GEO_SCALE(0x00, 16384),
                                         GEO_OPEN_NODE(),
-                                            GEO_TRANSLATE_ROTATE_WITH_DL(LAYER_TRANSPARENT, 2000, 0, 0, 0, 0, 0, transparent_star_seg3_dl_0302C620),
+                                            GEO_TRANSLATE_ROTATE_WITH_DL(LAYER_TRANSPARENT, 2000, 0, 0, 0, 0, 0, transparent_star_000_displaylist_mesh_layer_5),
                                         GEO_CLOSE_NODE(),
                                     GEO_CLOSE_NODE(),
                                 #endif
