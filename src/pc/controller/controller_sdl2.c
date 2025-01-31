@@ -17,6 +17,13 @@
 #include "../configfile.h"
 #include "../platform.h"
 #include "../fs/fs.h"
+#ifdef TOUCH_CONTROLS
+#include "controller_touchscreen.h"
+#endif
+
+#ifdef MOUSE_ACTIONS
+#include "controller_mouse.h"
+#endif
 
 #include "game/level_update.h"
 
@@ -27,15 +34,6 @@
 #define MAX_MOUSEBUTTONS 8 // arbitrary
 #define MAX_JOYBUTTONS 32  // arbitrary; includes virtual keys for triggers
 #define AXIS_THRESHOLD (30 * 256)
-
-#ifdef MOUSE_ACTIONS
-int gMouseXPos;
-int gMouseYPos;
-int gOldMouseXPos;
-int gOldMouseYPos;
-int gMouseHasFreeControl;
-int gMouseHasCenterControl;
-#endif
 
 static bool init_ok;
 static bool haptics_enabled;
@@ -50,9 +48,7 @@ static u32 last_joybutton = VK_INVALID;
 #ifdef MOUSE_ACTIONS
 static u32 mouse_binds[MAX_JOYBINDS][2];
 static u32 num_mouse_binds = 0;
-static u32 mouse_buttons = 0;
 static u32 last_mouse = VK_INVALID;
-bool last_cursor_status = false;
 #endif
 
 static inline void controller_add_binds(const u32 mask, const u32 *btns) {
@@ -121,9 +117,19 @@ static void controller_sdl_init(void) {
 
     haptics_enabled = (SDL_InitSubSystem(SDL_INIT_HAPTIC) == 0);
 
+#ifdef MOUSE_ACTIONS
+    if (mouse_has_center_control && sCurrPlayMode != 2) {
+        controller_mouse_enter_relative();
+    }
+    controller_mouse_leave_relative();
+#endif
+
     controller_sdl_bind();
 
     init_ok = true;
+#ifdef MOUSE_ACTIONS
+    mouse_init_ok = true;
+#endif
 }
 
 static SDL_Haptic *controller_sdl_init_haptics(const int joy) {
@@ -153,39 +159,27 @@ static inline void update_button(const int i, const bool new) {
 }
 
 #ifdef MOUSE_ACTIONS
-void set_cursor_visibility(bool newVisibility) {
-    if (last_cursor_status != newVisibility) {
-        SDL_ShowCursor(newVisibility ? SDL_DISABLE : SDL_ENABLE);
-        last_cursor_status = newVisibility;
-    }
-}
-
 static void mouse_control_handler(OSContPad *pad) {
-    u32 mouse;
-
-    if (configMouse) {
-        set_cursor_visibility(gMouseHasFreeControl || configWindow.fullscreen);
-
-        if (gMouseHasCenterControl && sCurrPlayMode != 2) {
-            SDL_SetRelativeMouseMode(SDL_TRUE);
-            mouse = SDL_GetRelativeMouseState(&gMouseXPos, &gMouseYPos);
-        } else {
-            SDL_SetRelativeMouseMode(SDL_FALSE);
-            mouse = SDL_GetMouseState(&gMouseXPos, &gMouseYPos);
-        }
-    } else {
-        set_cursor_visibility(false);
-        SDL_SetRelativeMouseMode(SDL_FALSE);
-        mouse = SDL_GetMouseState(&gMouseXPos, &gMouseYPos);
+    if (!configMouse) {
+        return;
     }
+
+    if (mouse_has_center_control && sCurrPlayMode != 2) {
+        controller_mouse_enter_relative();
+    } else {
+        controller_mouse_leave_relative();
+    }
+
+    u32 mouse_prev = mouse_buttons;
+    controller_mouse_read_relative();
+    u32 mouse = mouse_buttons;
 
     for (u32 i = 0; i < num_mouse_binds; ++i)
         if (mouse & SDL_BUTTON(mouse_binds[i][0]))
             pad->button |= mouse_binds[i][1];
 
     // remember buttons that changed from 0 to 1
-    last_mouse = (mouse_buttons ^ mouse) & mouse;
-    mouse_buttons = mouse;
+    last_mouse = (mouse_prev ^ mouse) & mouse;
 }
 #endif
 
@@ -246,6 +240,9 @@ static void controller_sdl_read(OSContPad *pad) {
 
     for (u32 i = 0; i < SDL_CONTROLLER_BUTTON_MAX; ++i) {
         const bool new = SDL_GameControllerGetButton(sdl_cntrl, i);
+#ifdef TOUCH_CONTROLS
+        if (new) gTouchControlsInUse = FALSE;
+#endif
         update_button(i, new);
     }
 
@@ -295,13 +292,30 @@ static void controller_sdl_read(OSContPad *pad) {
 }
 
 static void controller_sdl_rumble_play(f32 strength, f32 length) {
-    if (sdl_haptic)
+    if (sdl_haptic) {
         SDL_HapticRumblePlay(sdl_haptic, strength, (u32)(length * 1000.0f));
+    }
+    else {
+#if SDL_VERSION_ATLEAST(2,0,18)
+        uint16_t scaled_strength = strength * pow(2, 16) - 1;
+        if (SDL_GameControllerHasRumble(sdl_cntrl) == SDL_TRUE) {
+            SDL_GameControllerRumble(sdl_cntrl, scaled_strength, scaled_strength, (u32)(length * 1000.0f));
+        }
+#endif
+    }
 }
 
 static void controller_sdl_rumble_stop(void) {
-    if (sdl_haptic)
+    if (sdl_haptic) {
         SDL_HapticRumbleStop(sdl_haptic);
+    }
+    else {
+#if SDL_VERSION_ATLEAST(2,0,18)
+        if (SDL_GameControllerHasRumble(sdl_cntrl) == SDL_TRUE) {
+            SDL_GameControllerRumble(sdl_cntrl, 0, 0, 0);
+        }
+#endif
+    }
 }
 
 static u32 controller_sdl_rawkey(void) {
@@ -344,6 +358,9 @@ static void controller_sdl_shutdown(void) {
 
     haptics_enabled = false;
     init_ok = false;
+#ifdef MOUSE_ACTIONS
+    mouse_init_ok = false;
+#endif
 }
 
 struct ControllerAPI controller_sdl = {

@@ -24,6 +24,8 @@ PORT_MOP_OBJS ?= 0
 VANILLA_CHECKS ?= 1
 # Enable extended bounds
 EXTENDED_BOUNDS ?= 0
+# Enable Mouse support
+MOUSE_ACTIONS ?= 1
 # Accept RM2C level folder output
 RM2C ?= 0
 
@@ -89,18 +91,18 @@ ifeq ($(EXTERNAL_DATA),1)
   endif
 endif
 
-# Use PC-only exclusive defines
-ifeq ($(TARGET_ANDROID),1)
+ifeq ($(WINDOW_API),SDL2)
   # Check for touch controls
   ifeq ($(TOUCH_CONTROLS),1)
     CUSTOM_C_DEFINES += -DTOUCH_CONTROLS
   endif
 endif
 
+# Use PC-only exclusive defines
 ifeq ($(TARGET_PORT_CONSOLE),0)
 
-  # Check for Mouse Option (no DirectX yet)
-  ifneq ($(WINDOW_API),DXGI)
+  # Check for Mouse Option
+  ifeq ($(MOUSE_ACTIONS),1)
     CUSTOM_C_DEFINES += -DMOUSE_ACTIONS
   endif
 
@@ -108,7 +110,7 @@ ifeq ($(TARGET_PORT_CONSOLE),0)
   ifeq ($(DISCORDRPC),1)
     CUSTOM_C_DEFINES += -DDISCORDRPC
   endif
-  
+
   # Check for Command Line Options
   ifeq ($(COMMAND_LINE_OPTIONS),1)
     CUSTOM_C_DEFINES += -DCOMMAND_LINE_OPTIONS

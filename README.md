@@ -64,7 +64,7 @@ https://nistalgia.net
 
   #### Install build dependencies
   ```sh
-  pkg install git wget make python getconf zip apksigner clang binutils
+  pkg install git wget make python getconf zip apksigner clang binutils which libglvnd-dev
   ```
 
   #### Copy in your baserom:
@@ -87,9 +87,11 @@ https://nistalgia.net
   make -j4
   ```
 
- #### Install apk:
+ #### Copying and Installing apk:
+ 
+ Do this to move the apk to the root of your storage then open it using a file manager.
   ```sh
-  xdg-open build/us_android/sm64.us.f3dex2e.apk
+  cp build/us_android/sm64.us.f3dex2e.apk /sdcard/sm64.us.f3dex2e.apk
   ```
  
 </details>

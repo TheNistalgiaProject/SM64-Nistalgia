@@ -140,6 +140,16 @@ static const u8 optBindStr[][SIZEOPTC(32)] = {
     { TEXT_OPT_DEADZONE },
     { TEXT_OPT_RUMBLE },
 };
+
+#ifdef TOUCH_CONTROLS
+extern struct SubMenu menuTouch;
+
+static const u8 optTouchStr[][SIZEOPTC(32)] = {
+    { TEXT_TOUCH_CONTROLS },
+    { TEXT_TOUCH_AUTOHIDE },
+};
+#endif
+
 #endif
 
 #ifndef TARGET_N64
@@ -197,6 +207,9 @@ static struct Option optsCamera[] = {
 
 #if !defined(TARGET_N64) && !defined(TARGET_PORT_CONSOLE)
 static struct Option optsControls[] = {
+#ifdef TOUCH_CONTROLS
+    DEF_OPT_SUBMENU( optTouchStr[0], &menuTouch ),
+#endif
     DEF_OPT_BIND( optBindStr[ 2], configKeyA ),
     DEF_OPT_BIND( optBindStr[ 3], configKeyB ),
     DEF_OPT_BIND( optBindStr[ 4], configKeyStart ),
@@ -222,6 +235,15 @@ static struct Option optsControls[] = {
     DEF_OPT_SCROLL( optBindStr[21], &configRumbleStrength, 0, 100, 1),
 #endif
 };
+
+#ifdef TOUCH_CONTROLS
+static struct Option optsTouch[] = {
+    DEF_OPT_TOGGLE( optTouchStr[1], &configAutohideTouch ),
+};
+
+struct SubMenu menuTouch = DEF_SUBMENU( optTouchStr[0], optsTouch );
+#endif
+
 #endif
 
 #ifndef TARGET_N64
@@ -332,8 +354,8 @@ static void uint_to_hex(u32 num, u8 *dst) {
     dst[4] = DIALOG_CHAR_TERMINATOR;
 }
 
-static void optmenu_draw_text(s16 x, s16 y, const u8 str[], u8 col) {
-    u8 textX = get_str_x_pos_from_center(x, (u8 *) str, 10.0f);
+static void optmenu_draw_text(s16 x, s16 y, const u8 *str, u8 col) {
+    const u8 textX = get_str_x_pos_from_center(x, (u8 *) str, 10.0f);
     gDPSetEnvColor(gDisplayListHead++, 0, 0, 0, 255);
     print_generic_string(textX + 1, y - 1, str);
     if (col == 0) {
@@ -344,23 +366,23 @@ static void optmenu_draw_text(s16 x, s16 y, const u8 str[], u8 col) {
     print_generic_string(textX, y, str);
 }
 
-// TODO: Fix the hardcoded values
-static void optmenu_draw_opt_scroll(const struct Option *opt, s16 i) {
-    s16 maxvar, minvar;
-    maxvar = opt->scrMax - opt->scrMin;
-    minvar = *opt->uval - opt->scrMin;
+static void optmenu_draw_opt_scroll(const struct Option *opt, s16 y) {
+    s16 maxvar = opt->scrMax - opt->scrMin;
+    s16 minvar = *opt->uval - opt->scrMin;
+    s16 yOffset = (SCREEN_HEIGHT - y);
+    s16 xVarPos = (((f32)minvar/maxvar)*128);
 
     // Grey bar
-    print_solid_color_quad(96,111+(32*i)-(currentMenu->scroll*32),224,117+(32*i)-(currentMenu->scroll*32),0x80,0x80,0x80, 0xFF);
+    print_solid_color_quad(96, yOffset + 0, 224, yOffset + 6, 0x80, 0x80, 0x80, 0xFF);
     // White bar
-    print_solid_color_quad(96,111+(32*i)-(currentMenu->scroll*32),96+(((f32)minvar/maxvar)*128),117+(32*i)-(currentMenu->scroll*32),0xFF,0xFF,0xFF, 0xFF);
+    print_solid_color_quad(96, yOffset + 0, xVarPos + 96, yOffset + 6, 0xFF, 0xFF, 0xFF, 0xFF);
     // Red middle bar
-    print_solid_color_quad(94+(((f32)minvar/maxvar)*128),109+(32*i)-(currentMenu->scroll*32),98+(((f32)minvar/maxvar)*128),119+(32*i)-(currentMenu->scroll*32),0xFF,0x0,0x0, 0xFF);
+    print_solid_color_quad(xVarPos + 94, yOffset - 2, xVarPos + 98, yOffset + 8, 0xFF, 0x00, 0x00, 0xFF);
     // To fix strings
     gSPDisplayList(gDisplayListHead++, dl_ia_text_begin);
 }
 
-static void optmenu_draw_opt(const struct Option *opt, s16 x, s16 y, u8 sel, s16 iScrl) {
+static void optmenu_draw_opt(const struct Option *opt, s16 x, s16 y, u8 sel) {
     u8 buf[32] = { 0 };
 
     if (opt->type == OPT_SUBMENU || opt->type == OPT_BUTTON)
@@ -374,13 +396,15 @@ static void optmenu_draw_opt(const struct Option *opt, s16 x, s16 y, u8 sel, s16
             break;
 
         case OPT_CHOICE:
+            *opt->uval = CLAMP(*opt->uval, 0, opt->numChoices - 1); // Avoid reading invalid string
             optmenu_draw_text(x, y-13, opt->choices[*opt->uval], sel);
             break;
 
         case OPT_SCROLL:
+            *opt->uval = CLAMP(*opt->uval, opt->scrMin, opt->scrMax); // Avoid bar going off limits
             INT_TO_STR_DIFF(*opt->uval, buf);
             optmenu_draw_text(x, y-13, buf, sel);
-            optmenu_draw_opt_scroll(opt, iScrl);
+            optmenu_draw_opt_scroll(opt, y-11);
             break;
 
 #if !defined(TARGET_N64) && !defined(TARGET_PORT_CONSOLE)
@@ -483,8 +507,7 @@ void optmenu_draw(void) {
     print_hud_lut_string(HUD_LUT_CNDIFF, labelX, 40, currentMenu->label);
     gSPDisplayList(gDisplayListHead++, dl_rgba16_text_end);
 
-    if (currentMenu->numOpts > 4)
-    {
+    if (currentMenu->numOpts > 4) {
         print_solid_color_quad(272, 84, 280, 218, 0x80, 0x80, 0x80, 0xFF);
         scrollpos = (62)*((f32)currentMenu->scroll/(currentMenu->numOpts-4));
         print_solid_color_quad(272, 84 + scrollpos,280,156+scrollpos,0xFF,0xFF,0xFF, 0xFF);
@@ -496,7 +519,7 @@ void optmenu_draw(void) {
         scroll = 140-(32*i)+(currentMenu->scroll*32);
         // FIXME: just start from the first visible option bruh
         if (scroll <= 140 && scroll > 32)
-            optmenu_draw_opt(&currentMenu->opts[i], SCREEN_WIDTH / 2, scroll, (currentMenu->select == i), i);
+            optmenu_draw_opt(&currentMenu->opts[i], SCREEN_WIDTH / 2, scroll, (currentMenu->select == i));
     }
 
     sinpos = sins(gGlobalTimer*5000)*4;
@@ -507,7 +530,6 @@ void optmenu_draw(void) {
     gSPDisplayList(gDisplayListHead++, dl_ia_text_end);
 }
 
-
 //This has been separated for interesting reasons. Don't question it.
 void optmenu_draw_prompt(void) {
     u8 *str = (u8 *) optSmallStr[optmenu_open];
@@ -515,8 +537,8 @@ void optmenu_draw_prompt(void) {
 
     gSPDisplayList(gDisplayListHead++, dl_ia_text_begin);
 
-    print_generic_string_detail(GFX_DIMENSIONS_RECT_FROM_RIGHT_EDGE(57 + strW), 212, str, 255, 255, 255, 255, TRUE, 1);
-    
+    print_generic_string_detail(GFX_DIMENSIONS_RECT_FROM_RIGHT_EDGE(57 + strW), 212, str, 255, 255, 255, gMenuTextAlpha, TRUE, 1);
+
     gSPDisplayList(gDisplayListHead++, dl_ia_text_end);
 }
 
