@@ -50,8 +50,8 @@
 #define RATIO_X (gfx_current_dimensions.width / (2.0f * HALF_SCREEN_WIDTH))
 #define RATIO_Y (gfx_current_dimensions.height / (2.0f * HALF_SCREEN_HEIGHT))
 
-#define MAX_LIGHTS 2
-#define MAX_VERTICES 64
+#define MAX_LIGHTS +inf
+#define MAX_VERTICES 128
 
 #ifdef EXTERNAL_DATA
 # define MAX_CACHED_TEXTURES 4096 // for preloading purposes
@@ -1403,7 +1403,7 @@ static void gfx_dp_load_tile(uint8_t tile, uint32_t uls, uint32_t ult, uint32_t 
     uint32_t word_size_shift;
     switch (rdp.texture_to_load.siz) {
         case G_IM_SIZ_4b:
-            word_size_shift = 0; // Or -1? It's unused in SM64 anyway.
+            word_size_shift = -1;
             break;
         case G_IM_SIZ_8b:
             word_size_shift = 0;
