@@ -174,16 +174,6 @@ static void mouse_control_handler(OSContPad *pad) {
     controller_mouse_read_relative();
     u32 mouse = mouse_buttons;
 
-    if (mouse_has_center_control && sCurrPlayMode != 2) {
-        controller_mouse_enter_relative();
-    } else {
-        controller_mouse_leave_relative();
-    }
-
-    u32 mouse_prev = mouse_buttons;
-    controller_mouse_read_relative();
-    u32 mouse = mouse_buttons;
-
     for (u32 i = 0; i < num_mouse_binds; ++i)
         if (mouse & SDL_BUTTON(mouse_binds[i][0]))
             pad->button |= mouse_binds[i][1];
