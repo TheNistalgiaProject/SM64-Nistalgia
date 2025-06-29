@@ -1,4 +1,4 @@
-![https://nistalgia.net](https://github.com/user-attachments/assets/03d628f7-4119-4df4-a005-6aa1c0740e02)
+![Image](https://github.com/user-attachments/assets/a0afe3b1-29c4-4754-b24e-65563d1b4701)
 
  
 ## Description
