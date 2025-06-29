@@ -4,7 +4,7 @@
 ## Description
  Hello! Welcome to Nistalgia its a Mod that Makes your Experience a whole lot Better
  
-**DISCLAIMER** This project is a work in progress and things may change over time
+**DISCLAIMER** This Project is a Work in Progress and Things may Change over Time
 
 https://nistalgia.net
 
