@@ -6,8 +6,9 @@
  
 **DISCLAIMER** This Project is a Work in Progress and Things may Change over Time
 
-## Website:
+## Website And More
 https://nistalgia.net
+https://discord.gg/yrKAznkzTW
 
 ## Building
  ### Clone the repository:
