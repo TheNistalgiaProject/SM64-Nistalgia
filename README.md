@@ -2,7 +2,7 @@
 
  
 ## Description
- Hello! Welcome to Nistalgia its a mod that makes your experience a whole lot better
+ Hello! Welcome to Nistalgia its a Mod that Makes your Experience a whole lot Better
  
 **DISCLAIMER** This project is a work in progress and things may change over time
 
